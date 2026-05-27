@@ -2,10 +2,10 @@ package com.example.projet_velib_entem_hochon
 //
 //import android.os.Bundle
 //import android.widget.TextView
-//import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 //import com.example.projet_velib_entem_hochon.model.Station
 //
-//class StationDetailsActivity : AppCompatActivity() {
+class StationDetailsActivity : AppCompatActivity() {
 //
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
@@ -26,6 +26,6 @@ package com.example.projet_velib_entem_hochon
 //            docksTextView.text = "Places libres : ${station.locationAvailable}"
 //        }
 //    }
-//}
+}
 
 
