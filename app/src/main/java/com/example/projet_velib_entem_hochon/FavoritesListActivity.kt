@@ -22,8 +22,8 @@ class FavoriteListActivity : AppCompatActivity() {
         // 3. Liaison avec l'adaptateur personnalisé
         recyclerView.adapter = StationAdapter(favoriteStations) { stationClicked ->
             // Clic : Ouvre l'écran de détails en transmettant l'objet Station cliqué
-            val intent = Intent(this, StationDetailsActivity::class.java)
-            intent.putExtra("STATION_EXTRA", stationClicked)
+            //val intent = Intent(this, StationDetailsActivity::class.java)
+            //intent.putExtra("STATION_EXTRA", stationClicked)
 
             startActivity(intent)
         }

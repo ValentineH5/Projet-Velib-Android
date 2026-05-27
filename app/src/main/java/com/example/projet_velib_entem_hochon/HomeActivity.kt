@@ -14,7 +14,7 @@ class HomeActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
         val mapButton = findViewById<Button>(R.id.button_map)
-        val favoritesButton = findViewById<Button>(R.id.home_favorites_button)
+        val favoritesButton = findViewById<Button>(R.id.button_favoris)
 
         mapButton.setOnClickListener {
             val intent = Intent(this, MapActivity::class.java)

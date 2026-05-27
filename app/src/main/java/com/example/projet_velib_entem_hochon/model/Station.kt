@@ -3,7 +3,11 @@ package com.example.projet_velib_entem_hochon.model
 import android.os.Parcelable
 import androidx.versionedparcelable.VersionedParcelable
 import androidx.versionedparcelable.VersionedParcelize
+//import kotlinx.parcelize.Parcelize
+import java.io.Serializable
 
+
+//@Parcelize
 data class Station(
     val id: String,
     val name: String,
@@ -12,7 +16,7 @@ data class Station(
     val bikesAvailable: Int,
     val locationAvailable: Int,
     val isFavorite: Boolean = false
-) {
+) : Serializable{
     companion object {
         // Une méthode similaire à ton cours pour tester tes listes et ta carte
         fun generateMockStations(size: Int): List<Station> {

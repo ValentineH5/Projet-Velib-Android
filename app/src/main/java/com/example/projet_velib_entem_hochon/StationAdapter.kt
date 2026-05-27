@@ -30,7 +30,7 @@ class StationAdapter(
     override fun onBindViewHolder(holder: StationViewHolder, position: Int) {
         val station = stations[position]
         holder.nameTextView.text = station.name
-        holder.statusTextView.text = "Places libres : ${station.docksAvailable}"
+        holder.statusTextView.text = "Places libres : ${station.locationAvailable}"
         holder.bikesTextView.text = "${station.bikesAvailable} 🚲"
 
         // Gestion du clic sur la ligne
