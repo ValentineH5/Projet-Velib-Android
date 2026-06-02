@@ -22,10 +22,9 @@ class MapActivity : AppCompatActivity() {
         val sharedPrefs = getSharedPreferences("osmdroid_prefs", Context.MODE_PRIVATE)
         Configuration.getInstance().load(applicationContext, sharedPrefs)
 
-        // C'est cette ligne qui lie le code Kotlin au fichier activity_main.xml
         setContentView(R.layout.activity_map)
 
-        // Récupération de la MapView du fichier XML
+        // Récupération de la MapView
         mapView = findViewById(R.id.mapView)
 
         // Configuration de base de la carte
@@ -38,15 +37,50 @@ class MapActivity : AppCompatActivity() {
         val parisCenter = GeoPoint(48.8566, 2.3522)
         mapController.setCenter(parisCenter)
 
-        // Liste de test temporaire (Données fictives)
-        val sampleStations = listOf(
-            Station("1", "Station Châtelet", 48.8584, 2.3475, 14, 6, true),
-            Station("2", "Station Tour Eiffel", 48.8583, 2.2944, 3, 22),
-            Station("3", "Station République", 48.8675, 2.3638, 0, 19)
-        )
+        // 1. Initialisation de Retrofit
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://velib-metropole-opendata.smovengo.cloud/")
+            //.baseUrl("https://jsonplaceholder.typicode.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
-        // Afficher les stations sur la carte
-        afficherStations(sampleStations)
+        velibApiService = retrofit.create(VelibApiService::class.java)
+
+        // 2. Charger les vraies données depuis l'API
+        chargerDonneesVelib()
+    }
+
+    private fun chargerDonneesVelib() {
+        // Utilisation du lifecycleScope pour lancer la coroutine liée au cycle de vie de l'activité
+        lifecycleScope.launch {
+            try {
+                // Les appels réseau se font en arrière-plan (Dispatchers.IO) pour ne pas bloquer l'interface
+                val stationsFinales = withContext(Dispatchers.IO) {
+
+                    // Appels simultanés ou successifs aux deux endpoints
+                    val infoResponse = velibApiService.getStationInformation()
+                    val statusResponse = velibApiService.getStationStatus()
+                    mergeVelibData(infoResponse.data.stations, statusResponse.data.stations)
+
+                    // Transformation du status en Map pour une recherche rapide par ID (O(1))
+                   // val statusMap = statusResponse.data.stations.associateBy { it.station_id }
+
+                }
+
+                // 3. Affichage des vraies stations sur la carte (sur le Thread Principal)
+                afficherStations(stationsFinales)
+
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//                Toast.makeText(this@MapActivity, "Erreur lors de la récupération des données : ${e.message}", Toast.LENGTH_LONG).show()
+//            }
+            } catch (e: Exception) {
+                e.printStackTrace() // Garde ça pour voir dans le Logcat d'Android Studio
+
+                // MODIFIE CETTE LIGNE : Elle affichera la vraie erreur sur ton téléphone
+                Toast.makeText(this@MapActivity, "Erreur : ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun afficherStations(stations: List<Station>) {
@@ -58,7 +92,6 @@ class MapActivity : AppCompatActivity() {
                 title = station.name
                 snippet = "Vélos dispo : ${station.bikesAvailable}\nBornes libres : ${station.locationAvailable}"
 
-                // Action lors du clic sur le marqueur
                 setOnMarkerClickListener { marker, _ ->
                     marker.showInfoWindow()
                     Toast.makeText(this@MapActivity, "Station : ${station.name}", Toast.LENGTH_SHORT).show()
@@ -71,7 +104,6 @@ class MapActivity : AppCompatActivity() {
         mapView.invalidate() // Force la carte à se redessiner
     }
 
-    // Gestion du cycle de vie de la carte
     override fun onResume() {
         super.onResume()
         mapView.onResume()
