@@ -10,30 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projet_velib_entem_hochon.model.Station
 
-//class FavoriteListActivity : AppCompatActivity() {
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_favorites_list)
-//
-//        // 1. Récupération des données fictives de test
-//        val favoriteStations = Station.generateMockStations(15)
-//
-//        // 2. Initialisation du RecyclerView
-//        val recyclerView = findViewById<RecyclerView>(R.id.favorites_recyclerview)
-//
-//        recyclerView.layoutManager = LinearLayoutManager(this)
-//
-//        // 3. Liaison avec l'adaptateur personnalisé
-//        recyclerView.adapter = StationAdapter(favoriteStations) { stationClicked ->
-//            val intent = Intent(this, StationDetailsActivity::class.java)
-//            intent.putExtra("STATION_EXTRA", stationClicked)
-//            startActivity(intent)
-//        }
-//    }
-//}
-
-class FavoriteListActivity : AppCompatActivity() {
+class FavoritesListActivity : AppCompatActivity() {
 
     // Déclaration du RecyclerView au niveau de la classe (comme ton modèle)
     lateinit var recyclerView: RecyclerView
@@ -54,17 +31,30 @@ class FavoriteListActivity : AppCompatActivity() {
         }
 
         // 3. Récupération des données fictives de test
-        val favoriteStations = Station.generateMockStations(15)
+        val favoriteStations = FavoriteManager.getFavorites()
 
         // 4. Initialisation du RecyclerView et de son LayoutManager
         recyclerView = findViewById<RecyclerView>(R.id.favorites_recyclerview)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        updateFavoritesList()
 
-        // 5. Liaison avec l'adaptateur personnalisé et gestion du clic
+
+    }
+
+    private fun updateFavoritesList() {
+
+        val favoriteStations = FavoriteManager.getFavorites()
+
         recyclerView.adapter = StationAdapter(favoriteStations) { stationClicked ->
             val intent = Intent(this, StationDetailsActivity::class.java)
             intent.putExtra("STATION_EXTRA", stationClicked)
             startActivity(intent)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        updateFavoritesList()
+    }
+
 }

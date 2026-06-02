@@ -21,10 +21,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FavoriteListActivity"
+            android:name=".FavoritesListActivity"
             android:exported="false" />
         <activity
             android:name=".MapActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".StationDetailsActivity"
             android:exported="false"/>
     </application>
 

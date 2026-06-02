@@ -22,7 +22,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         favoritesButton.setOnClickListener {
-            val intent = Intent(this, FavoriteListActivity::class.java)
+            val intent = Intent(this, FavoritesListActivity::class.java)
             startActivity(intent)
         }
     }

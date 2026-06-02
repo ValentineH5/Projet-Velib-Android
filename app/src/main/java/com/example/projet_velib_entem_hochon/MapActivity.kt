@@ -40,7 +40,7 @@ class MapActivity : AppCompatActivity() {
 
         // Liste de test temporaire (Données fictives)
         val sampleStations = listOf(
-            Station("1", "Station Châtelet", 48.8584, 2.3475, 14, 6),
+            Station("1", "Station Châtelet", 48.8584, 2.3475, 14, 6, true),
             Station("2", "Station Tour Eiffel", 48.8583, 2.2944, 3, 22),
             Station("3", "Station République", 48.8675, 2.3638, 0, 19)
         )
@@ -56,7 +56,7 @@ class MapActivity : AppCompatActivity() {
             val stationMarker = Marker(mapView).apply {
                 position = GeoPoint(station.latitude, station.longitude)
                 title = station.name
-                snippet = "Vélos dispo : ${station.bikesAvailable}\nPlaces libres : ${station.locationAvailable}"
+                snippet = "Vélos dispo : ${station.bikesAvailable}\nBornes libres : ${station.locationAvailable}"
 
                 // Action lors du clic sur le marqueur
                 setOnMarkerClickListener { marker, _ ->
