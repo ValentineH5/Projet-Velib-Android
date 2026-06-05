@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +33,8 @@ import kotlin.math.*
 
 class ProcheActivity : AppCompatActivity() {
     private lateinit var messageConnexion: TextView
+    private var filtreActuel = 0 // 0: Tous, 1: Vélos dispo, 2: Places dispo
+    private var listeStationsSauvegardee: List<Station> = emptyList() // Pour garder les données en mémoire
     private lateinit var mapView: MapView
     private lateinit var velibApiService: VelibApiService
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -59,10 +62,21 @@ class ProcheActivity : AppCompatActivity() {
             .build()
         velibApiService = retrofit.create(VelibApiService::class.java)
 
+        val btnVelo = findViewById<Button>(R.id.btnFiltreVelo)
+        val btnPlace = findViewById<Button>(R.id.btnFiltrePlace)
+
+        btnVelo.setOnClickListener {
+            // Si on clique alors qu'il est déjà actif, on l'éteint (retour à 0), sinon on l'active (1)
+            filtreActuel = if (filtreActuel == 1) 0 else 1
+            appliquerFiltreEtAfficher()
+        }
+        btnPlace.setOnClickListener {
+            filtreActuel = if (filtreActuel == 2) 0 else 2
+            appliquerFiltreEtAfficher()
+        }
         // 2. Vérifier les permissions et demander la géolocalisation de l'utilisateur
         verifierPermissionsEtGeolocaliser()
     }
-
     private fun verifierPermissionsEtGeolocaliser() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -101,19 +115,34 @@ class ProcheActivity : AppCompatActivity() {
                         e.printStackTrace()
                     }
                 }
-                afficherStations(stationsFinales, isOffline = false)
+                // MODIFICATION : On sauvegarde la liste fraîche et on applique le filtre
+                listeStationsSauvegardee = stationsFinales
+                appliquerFiltreEtAfficher(isOffline = false)
+
             } catch (e: Exception) {
                 e.printStackTrace()
                 val cachedStations = withContext(Dispatchers.IO) {
                     cacheManager.getStations()
                 }
                 if (!cachedStations.isNullOrEmpty()) {
-                    afficherStations(cachedStations, isOffline = true)
+                    // MODIFICATION : On sauvegarde la liste du cache et on applique le filtre
+                    listeStationsSauvegardee = cachedStations
+                    appliquerFiltreEtAfficher(isOffline = true)
                 } else {
                     Toast.makeText(this@ProcheActivity, "Erreur : ${e.localizedMessage}", Toast.LENGTH_LONG).show()
                 }
             }
         }
+    }
+    private fun appliquerFiltreEtAfficher(isOffline: Boolean = false) {
+        // On filtre la liste globale en fonction de la valeur de 'filtreActuel'
+        val stationsFiltrees = when (filtreActuel) {
+            1 -> listeStationsSauvegardee.filter { (it.bikesAvailable ?: 0) > 0 }      // Que les vélos dispo
+            2 -> listeStationsSauvegardee.filter { (it.locationAvailable ?: 0) > 0 }   // Que les places dispo
+            else -> listeStationsSauvegardee                                           // Tout afficher
+        }
+        // On envoie le résultat filtré
+        afficherStations(stationsFiltrees, isOffline)
     }
     private fun afficherStations(stations: List<Station>, isOffline: Boolean = false) {
         if (isOffline) {
@@ -122,7 +151,6 @@ class ProcheActivity : AppCompatActivity() {
         } else {
             messageConnexion.visibility = View.GONE
         }
-
         mapView.overlays.clear()
         val mapController = mapView.controller
         mapController.setZoom(14.5)
@@ -147,13 +175,11 @@ class ProcheActivity : AppCompatActivity() {
             }
             // Trier les stations
             val stationsTriees = stations.sortedBy { it.distance }
-
             stationsTriees.forEachIndexed { index, station ->
                 val stationMarker = Marker(mapView).apply {
                     position = GeoPoint(station.latitude, station.longitude)
                     title = station.name
                     snippet = "Vélos dispo : ${station.bikesAvailable ?: 0}\nPlaces libres : ${station.locationAvailable ?: 0}\nDistance : ${String.format("%.2f", station.distance)} km"
-
                     if (index < 3) {
                         val bleuIcon = ContextCompat.getDrawable(this@ProcheActivity, org.osmdroid.library.R.drawable.marker_default)?.mutate()
                         bleuIcon?.setTint(Color.BLUE)
