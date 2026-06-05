@@ -35,8 +35,5 @@
         <activity
             android:name=".StationDetailsActivity"
             android:exported="false"/>
-        <activity
-            android:name=".ProcheActivity"
-            android:exported="false"/>
     </application>
 </manifest>
