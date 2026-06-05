@@ -3,13 +3,10 @@ package com.example.projet_velib_entem_hochon
 import com.example.projet_velib_entem_hochon.model.Station
 
 object FavoriteManager {
-
     private val favorites = mutableListOf<Station>()
-
     init {
         // Stations de test
         val mock = Station.generateMockStations(5)
-
         favorites.addAll(mock.take(3)) // on en met 3 en favoris
     }
 
