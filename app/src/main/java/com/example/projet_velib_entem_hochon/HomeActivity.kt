@@ -15,14 +15,18 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
         val mapButton = findViewById<Button>(R.id.button_map)
         val favoritesButton = findViewById<Button>(R.id.button_favoris)
+        val procheButton = findViewById<Button>(R.id.button_proche)
 
         mapButton.setOnClickListener {
             val intent = Intent(this, MapActivity::class.java)
             startActivity(intent)
         }
-
         favoritesButton.setOnClickListener {
             val intent = Intent(this, FavoritesListActivity::class.java)
+            startActivity(intent)
+        }
+        procheButton.setOnClickListener {
+            val intent = Intent(this, ProcheActivity::class.java)
             startActivity(intent)
         }
     }

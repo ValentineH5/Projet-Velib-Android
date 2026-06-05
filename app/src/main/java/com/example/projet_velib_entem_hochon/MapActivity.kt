@@ -58,7 +58,6 @@ private fun chargerDonneesVelib() {
                 val statusResponse = velibApiService.getStationStatus()
                 mergeVelibData(infoResponse.data.stations, statusResponse.data.stations)
             }
-
             withContext(Dispatchers.IO) {
                 try {
                     cacheManager.saveStations(stationsFinales)
