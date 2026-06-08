@@ -26,14 +26,12 @@ class StationAdapter(
         return StationViewHolder(view)
     }
 
-    // Étape 3 : On injecte les données de la station actuelle dans les vues textuelles
     override fun onBindViewHolder(holder: StationViewHolder, position: Int) {
         val station = stations[position]
         holder.nameTextView.text = station.name
         holder.statusTextView.text = "Places libres : ${station.locationAvailable}"
         holder.bikesTextView.text = "${station.bikesAvailable} 🚲"
 
-        // Gestion du clic sur la ligne
         holder.itemView.setOnClickListener { onItemClick(station) }
     }
 

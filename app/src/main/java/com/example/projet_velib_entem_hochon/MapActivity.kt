@@ -11,14 +11,20 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+<<<<<<< Updated upstream
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+=======
+>>>>>>> Stashed changes
 import androidx.lifecycle.lifecycleScope
 import com.example.projet_velib_entem_hochon.model.Station
 import com.example.projet_velib_entem_hochon.model.VelibApiService
 import com.example.projet_velib_entem_hochon.model.mergeVelibData
+<<<<<<< Updated upstream
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+=======
+>>>>>>> Stashed changes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -29,7 +35,10 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+<<<<<<< Updated upstream
 import kotlin.math.*
+=======
+>>>>>>> Stashed changes
 
 class MapActivity: AppCompatActivity() {
     private lateinit var messageConnexion: TextView
@@ -37,9 +46,13 @@ class MapActivity: AppCompatActivity() {
     private var listeStationsSauvegardee: List<Station> = emptyList() // Pour garder les données en mémoire
     private lateinit var mapView: MapView
     private lateinit var velibApiService: VelibApiService
+<<<<<<< Updated upstream
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val LOCATION_PERMISSION_REQUEST_CODE = 1000
     private var maPosition: Location? = null
+=======
+
+>>>>>>> Stashed changes
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Configuration d'OsmDroid pour le cache de la carte

@@ -3,6 +3,13 @@ package com.example.projet_velib_entem_hochon.model
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import retrofit2.http.GET
+<<<<<<< Updated upstream
+=======
+
+// 1. LES MODÈLES DE DONNÉES (API)
+
+// Modèles pour station_information.json
+>>>>>>> Stashed changes
 data class StationInformationResponse(val data: StationInfoData)
 data class StationInfoData(val stations: List<StationInfo>)
 data class StationInfo(
@@ -46,12 +53,24 @@ data class Station(
 
     }
 }
+<<<<<<< Updated upstream
+=======
+
+// 2. L'INTERFACE RETROFIT
+
+>>>>>>> Stashed changes
 interface VelibApiService {
     @GET("opendata/Velib_Metropole/station_information.json")
     suspend fun getStationInformation(): StationInformationResponse
     @GET("opendata/Velib_Metropole/station_status.json")
     suspend fun getStationStatus(): StationStatusResponse
 }
+<<<<<<< Updated upstream
+=======
+
+// 3. LA FONCTION DE FUSION (Optionnelle ici)
+
+>>>>>>> Stashed changes
 fun mergeVelibData(infoList: List<StationInfo>, statusList: List<StationStatus>): List<Station> {
     val statusMap = statusList.associateBy { it.station_id }
     return infoList.mapNotNull { info ->
