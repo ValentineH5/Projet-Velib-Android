@@ -54,6 +54,8 @@ class MapActivity: AppCompatActivity() {
 
         setContentView(R.layout.activity_map)
 
+        FavoriteManager.initCache(this)
+
         // Récupération de la MapView
         mapView = findViewById(R.id.mapView)
         messageConnexion = findViewById(R.id.messageConnexion)
@@ -78,6 +80,7 @@ class MapActivity: AppCompatActivity() {
 
         val btnVelo = findViewById<Button>(R.id.btnFiltreVelo)
         val btnPlace = findViewById<Button>(R.id.btnFiltrePlace)
+        val btnFavoris = findViewById<Button>(R.id.btnFiltreFavoris)
 
         btnVelo.setOnClickListener {
             // Si on clique alors qu'il est déjà actif, on l'éteint (retour à 0), sinon on l'active (1)
@@ -86,6 +89,10 @@ class MapActivity: AppCompatActivity() {
         }
         btnPlace.setOnClickListener {
             filtreActuel = if (filtreActuel == 2) 0 else 2
+            appliquerFiltreEtAfficher()
+        }
+        btnFavoris.setOnClickListener {
+            filtreActuel = if (filtreActuel == 3) 0 else 3
             appliquerFiltreEtAfficher()
         }
         // 2. Vérifier les permissions et demander la géolocalisation de l'utilisateur
@@ -161,6 +168,7 @@ class MapActivity: AppCompatActivity() {
         val stationsFiltrees = when (filtreActuel) {
             1 -> listeStationsSauvegardee.filter { (it.bikesAvailable ?: 0) > 0 }      // Que les vélos dispo
             2 -> listeStationsSauvegardee.filter { (it.locationAvailable ?: 0) > 0 }   // Que les places dispo
+            3 -> listeStationsSauvegardee.filter { (FavoriteManager.isFavorite(it)) }    //Que les stations favorites
             else -> listeStationsSauvegardee                                           // Tout afficher
         }
         // On envoie le résultat filtré
@@ -213,8 +221,15 @@ class MapActivity: AppCompatActivity() {
                         )?.mutate()
                         bleuIcon?.setTint(Color.BLUE)
                         icon = bleuIcon
+                    } else if (FavoriteManager.isFavorite(station)) {
+                        val yellowIcon = ContextCompat.getDrawable(
+                            this@MapActivity,
+                            org.osmdroid.library.R.drawable.marker_default
+                        )?.mutate()
+                        yellowIcon?.setTint(Color.YELLOW)
+                        icon = yellowIcon
                     } else {
-                        // TOUTES LES AUTRES
+                        //TOUTES LES AUTRES
                     }
                     setOnMarkerClickListener { marker, _ ->
                         marker.showInfoWindow()

@@ -22,14 +22,15 @@
         app:layout_constraintTop_toBottomOf="@id/messageConnexion"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" >
+    </org.osmdroid.views.MapView>
 
     <LinearLayout
         android:id="@+id/filterContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintTop_toBottomOf="@id/messageConnexion"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -52,5 +53,27 @@
             android:textSize="12sp"
             android:backgroundTint="#E8F5E9"
             android:textColor="#2E7D32"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/filterContainerTwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/btnFiltreFavoris"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#E8F5E9"
+            android:text="Afficher les favoris"
+            android:textColor="#2E7D32"
+            android:textSize="12sp" />
+
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

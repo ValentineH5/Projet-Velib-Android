@@ -7,38 +7,34 @@ object FavoriteManager {
     private val favorites = mutableListOf<Station>()
     private var cacheManager: CacheManager? = null
 
-    // Appelée une seule fois au lancement de l'app (ex: dans MainActivity)
     fun initCache(context: Context) {
         if (cacheManager == null) {
             cacheManager = CacheManager(context)
 
-            // On récupère ce qui est enregistré
-            val savedFavorites = cacheManager?.getStations()
+            // MODIFICATION ICI : On utilise la fonction dédiée aux favoris
+            val savedFavorites = cacheManager?.getFavorites()
 
             favorites.clear()
-            // Si on a déjà sauvegardé des favoris auparavant, on les charge
             if (!savedFavorites.isNullOrEmpty()) {
                 favorites.addAll(savedFavorites)
             }
-            // Si c'est le premier démarrage, savedFavorites est null ou vide,
-            // donc 'favorites' reste une liste vide [].
         }
     }
 
     private fun saveToCache() {
-        cacheManager?.saveStations(favorites)
+        // MODIFICATION ICI : On utilise la fonction dédiée aux favoris
+        cacheManager?.saveFavorites(favorites)
     }
 
     fun addFavorite(station: Station) {
         if (favorites.none { it.id == station.id }) {
             favorites.add(station)
-            saveToCache() // Sauvegarde
+            saveToCache()
         }
     }
-
     fun removeFavorite(station: Station) {
         favorites.removeAll { it.id == station.id }
-        saveToCache() // Sauvegarde après suppression
+        saveToCache()
     }
 
     fun isFavorite(station: Station): Boolean {
