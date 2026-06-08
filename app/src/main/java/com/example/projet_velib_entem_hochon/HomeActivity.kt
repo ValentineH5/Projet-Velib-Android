@@ -13,6 +13,13 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
+
+        //------------------------
+        setContentView(R.layout.activity_home) // ou ton layout principal
+
+        FavoriteManager.initCache(this)
+        //---------------------------
+
         val mapButton = findViewById<Button>(R.id.button_map)
         val favoritesButton = findViewById<Button>(R.id.button_favoris)
 
