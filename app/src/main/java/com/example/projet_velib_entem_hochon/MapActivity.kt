@@ -11,20 +11,15 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-<<<<<<< Updated upstream
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-=======
->>>>>>> Stashed changes
+
 import androidx.lifecycle.lifecycleScope
 import com.example.projet_velib_entem_hochon.model.Station
 import com.example.projet_velib_entem_hochon.model.VelibApiService
 import com.example.projet_velib_entem_hochon.model.mergeVelibData
-<<<<<<< Updated upstream
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-=======
->>>>>>> Stashed changes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -35,31 +30,31 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-<<<<<<< Updated upstream
 import kotlin.math.*
-=======
->>>>>>> Stashed changes
+
 
 class MapActivity: AppCompatActivity() {
+
     private lateinit var messageConnexion: TextView
     private var filtreActuel = 0 // 0: Tous, 1: Vélos dispo, 2: Places dispo
     private var listeStationsSauvegardee: List<Station> = emptyList() // Pour garder les données en mémoire
     private lateinit var mapView: MapView
     private lateinit var velibApiService: VelibApiService
-<<<<<<< Updated upstream
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val LOCATION_PERMISSION_REQUEST_CODE = 1000
     private var maPosition: Location? = null
-=======
 
->>>>>>> Stashed changes
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Configuration d'OsmDroid pour le cache de la carte
+
+        // Configuration indispensable d'OsmDroid pour le cache de la carte
         val sharedPrefs = getSharedPreferences("osmdroid_prefs", Context.MODE_PRIVATE)
         Configuration.getInstance().load(applicationContext, sharedPrefs)
 
         setContentView(R.layout.activity_map)
+
+        // Récupération de la MapView
         mapView = findViewById(R.id.mapView)
         messageConnexion = findViewById(R.id.messageConnexion)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -67,6 +62,12 @@ class MapActivity: AppCompatActivity() {
         // Configuration de base de la carte
         mapView.setTileSource(TileSourceFactory.MAPNIK)
         mapView.setMultiTouchControls(true)
+
+        // Centrer la carte sur Paris (Châtelet) au démarrage
+        val mapController = mapView.controller
+        mapController.setZoom(13.5)
+        val parisCenter = GeoPoint(48.8566, 2.3522)
+        mapController.setCenter(parisCenter)
 
         // 1. Initialisation de Retrofit
         val retrofit = Retrofit.Builder()
@@ -112,6 +113,7 @@ class MapActivity: AppCompatActivity() {
             }
         }
     }
+
     private fun chargerDonneesVelib() {
         val cacheManager = CacheManager(this)
         lifecycleScope.launch {
@@ -132,6 +134,13 @@ class MapActivity: AppCompatActivity() {
                 listeStationsSauvegardee = stationsFinales
                 appliquerFiltreEtAfficher(isOffline = false)
 
+                // 3. Affichage des vraies stations sur la carte (sur le Thread Principal)
+                afficherStations(stationsFinales)
+
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//                Toast.makeText(this@MapActivity, "Erreur lors de la récupération des données : ${e.message}", Toast.LENGTH_LONG).show()
+//            }
             } catch (e: Exception) {
                 e.printStackTrace()
                 val cachedStations = withContext(Dispatchers.IO) {
@@ -192,9 +201,16 @@ class MapActivity: AppCompatActivity() {
                 val stationMarker = Marker(mapView).apply {
                     position = GeoPoint(station.latitude, station.longitude)
                     title = station.name
-                    snippet = "Vélos dispo : ${station.bikesAvailable ?: 0}\nPlaces libres : ${station.locationAvailable ?: 0}\nDistance : ${String.format("%.2f", station.distance)} km"
+                    snippet =
+                        "Vélos dispo : ${station.bikesAvailable ?: 0}\nPlaces libres : ${station.locationAvailable ?: 0}\nDistance : ${
+                            String.format("%.2f",station.distance)
+                        } km"
+                    infoWindow = StationInfoWindow(mapView, this@MapActivity, station)
                     if (index < 3) {
-                        val bleuIcon = ContextCompat.getDrawable(this@MapActivity, org.osmdroid.library.R.drawable.marker_default)?.mutate()
+                        val bleuIcon = ContextCompat.getDrawable(
+                            this@MapActivity,
+                            org.osmdroid.library.R.drawable.marker_default
+                        )?.mutate()
                         bleuIcon?.setTint(Color.BLUE)
                         icon = bleuIcon
                     } else {
@@ -216,8 +232,32 @@ class MapActivity: AppCompatActivity() {
                 }
                 mapView.overlays.add(stationMarker)
             }
+
+            stations.forEach { station ->
+                val stationMarker = Marker(mapView).apply {
+                    position = GeoPoint(station.latitude, station.longitude)
+                    title = station.name
+                    snippet =
+                        "Vélos dispo : ${station.bikesAvailable}\nBornes libres : ${station.locationAvailable}"
+
+                    infoWindow = StationInfoWindow(
+                        mapView,
+                        this@MapActivity,
+                        station
+                    )
+
+                    // Action lors du clic sur le marqueur
+                    setOnMarkerClickListener { marker, _ ->
+                        marker.showInfoWindow()
+                        //Toast.makeText(this@MapActivity, "Station : ${station.name}", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                }
+                mapView.overlays.add(stationMarker)
+            }
+
+            mapView.invalidate() // Force la carte à se redessiner
         }
-        mapView.invalidate()
     }
     // Formule mathématique simplifiée (Haversine) pour calculer la distance entre deux points GPS
     private fun calculerDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
