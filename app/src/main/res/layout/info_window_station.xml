@@ -28,6 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="Détails"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:backgroundTint="#E3F2FD"
+        android:textColor="#1565C0" />
 
 </LinearLayout>
