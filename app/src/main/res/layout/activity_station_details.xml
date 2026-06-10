@@ -27,6 +27,13 @@
         android:layout_marginTop="8dp"
         android:textSize="18sp"/>
 
+    <TextView
+        android:id="@+id/details_station_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="18sp"/>
+
     <ImageButton
         android:id="@+id/btnFavorite"
         android:layout_width="wrap_content"

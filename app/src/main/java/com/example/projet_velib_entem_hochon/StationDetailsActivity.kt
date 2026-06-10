@@ -22,10 +22,12 @@ class StationDetailsActivity : AppCompatActivity() {
             val nameTextView = findViewById<TextView>(R.id.details_station_name)
             val bikesTextView = findViewById<TextView>(R.id.details_station_bikes)
             val docksTextView = findViewById<TextView>(R.id.details_station_docks)
+            val distanceTextView = findViewById<TextView>(R.id.details_station_distance)
 
             nameTextView.text = station.name
             bikesTextView.text = "Vélos disponibles : ${station.bikesAvailable}"
             docksTextView.text = "Bornes libres : ${station.locationAvailable}"
+            distanceTextView.text = "Distance : ${String.format("%.2f",station.distance)} km"
 
             if (FavoriteManager.isFavorite(station)) {
                 favoriteButton.setImageResource(
