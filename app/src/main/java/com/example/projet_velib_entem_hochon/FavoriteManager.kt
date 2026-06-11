@@ -10,10 +10,7 @@ object FavoriteManager {
     fun initCache(context: Context) {
         if (cacheManager == null) {
             cacheManager = CacheManager(context)
-
-            // MODIFICATION ICI : On utilise la fonction dédiée aux favoris
             val savedFavorites = cacheManager?.getFavorites()
-
             favorites.clear()
             if (!savedFavorites.isNullOrEmpty()) {
                 favorites.addAll(savedFavorites)
@@ -22,7 +19,6 @@ object FavoriteManager {
     }
 
     private fun saveToCache() {
-        // MODIFICATION ICI : On utilise la fonction dédiée aux favoris
         cacheManager?.saveFavorites(favorites)
     }
 

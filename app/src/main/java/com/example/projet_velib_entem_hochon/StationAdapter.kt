@@ -12,14 +12,12 @@ class StationAdapter(
     private val onItemClick: (Station) -> Unit
 ) : RecyclerView.Adapter<StationAdapter.StationViewHolder>() {
 
-    // Étape 1 : On crée le ViewHolder qui contient les liaisons XML
     class StationViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameTextView: TextView = view.findViewById(R.id.station_card_name)
         val statusTextView: TextView = view.findViewById(R.id.station_card_status)
         val bikesTextView: TextView = view.findViewById(R.id.station_card_bikes)
     }
 
-    // Étape 2 : On charge le layout xml de la ligne (station_card_view)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StationViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.station_card_view, parent, false)
@@ -34,6 +32,5 @@ class StationAdapter(
 
         holder.itemView.setOnClickListener { onItemClick(station) }
     }
-
     override fun getItemCount(): Int = stations.size
 }

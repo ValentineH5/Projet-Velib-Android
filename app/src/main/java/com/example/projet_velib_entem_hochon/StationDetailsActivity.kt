@@ -1,7 +1,6 @@
 package com.example.projet_velib_entem_hochon
 
 import android.os.Bundle
-import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.projet_velib_entem_hochon.model.Station
@@ -41,17 +40,12 @@ class StationDetailsActivity : AppCompatActivity() {
 
             favoriteButton.setOnClickListener {
                 if (FavoriteManager.isFavorite(station)) {
-
                     FavoriteManager.removeFavorite(station)
-
                     favoriteButton.setImageResource(
                         android.R.drawable.btn_star_big_off
                     )
-
                 } else {
-
                     FavoriteManager.addFavorite(station)
-
                     favoriteButton.setImageResource(
                         android.R.drawable.btn_star_big_on
                     )

@@ -3,8 +3,6 @@ package com.example.projet_velib_entem_hochon
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import android.content.Intent
 import android.widget.Button
 
@@ -13,12 +11,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
-
-        //------------------------
-        setContentView(R.layout.activity_home) // ou ton layout principal
-
         FavoriteManager.initCache(this)
-        //---------------------------
 
         val mapButton = findViewById<Button>(R.id.button_map)
         val favoritesButton = findViewById<Button>(R.id.button_favoris)

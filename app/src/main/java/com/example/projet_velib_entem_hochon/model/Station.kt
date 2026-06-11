@@ -9,7 +9,7 @@ data class StationInfoData(val stations: List<StationInfo>)
 data class StationInfo(
     val station_id: Long,
     val name: String,
-    @SerializedName("lat") val latitude: Double,  // L'API utilise "lat"
+    @SerializedName("lat") val latitude: Double,
     @SerializedName("lon") val longitude: Double,
     val capacity: Int
 )
@@ -31,21 +31,7 @@ data class Station(
     val isFavorite: Boolean = false,
     var distance: Double = 0.0
 ) : Serializable{
-    companion object{
-        fun generateMockStations(size: Int): List<Station> {
-            return (1..size).map { i ->
-                Station(
-                    id = i.toLong(),
-                    name = "Station Velib n°$i",
-                    latitude = 48.8566 + (i * 0.001), // Simule des positions autour de Paris
-                    longitude = 2.3522 + (i * 0.001),
-                    bikesAvailable = (0..20).random(),
-                    locationAvailable = (0..15).random()
-                )
-            }
-        }
 
-    }
 }
 
 interface VelibApiService {
