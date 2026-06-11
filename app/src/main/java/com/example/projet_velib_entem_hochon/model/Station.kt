@@ -1,5 +1,8 @@
 package com.example.projet_velib_entem_hochon.model
 
+import android.os.Parcelable
+import androidx.versionedparcelable.VersionedParcelable
+import androidx.versionedparcelable.VersionedParcelize
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import retrofit2.http.GET
