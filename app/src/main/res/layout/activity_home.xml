@@ -10,9 +10,9 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
+        android:layout_height="40dp"
         android:background="#00B0A3"
+        android:gravity="left"
         android:paddingStart="6dp"
         android:paddingTop="5dp"
         android:paddingEnd="6dp"
@@ -24,23 +24,52 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="left"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="184dp"
+        android:layout_marginTop="276dp"
         android:gravity="center"
         android:paddingStart="26dp"
         android:paddingTop="5dp"
         android:paddingEnd="26dp"
         android:paddingBottom="6dp"
-        android:text="Bienvenue sur votre
-        application Vélib !"
+        android:text="Trouvez. Roulez. Déposez."
         android:textColor="#1C2D42"
-        android:textSize="25sp"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="412dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="116dp"
+        android:contentDescription="Image"
+        android:src="@drawable/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewMessage2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:gravity="center"
+        android:paddingStart="26dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="26dp"
+        android:paddingBottom="6dp"
+        android:text="Bienvenue ! "
+        android:textColor="#1C2D42"
+        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -49,34 +78,38 @@
 
     <Button
         android:id="@+id/button_map"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Afficher la carte"
+        android:layout_width="320dp"
+        android:layout_height="130dp"
+        android:backgroundTint="#44C3D4"
+        android:text="Carte"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.648"
-        android:backgroundTint="#44C3D4"/>
+        app:layout_constraintVertical_bias="0.82" />
 
     <Button
         android:id="@+id/button_favoris"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Afficher vos favoris"
+        android:layout_width="320dp"
+        android:layout_height="130dp"
+        android:backgroundTint="#44C3D4"
+        android:text="Favoris"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.547"
-        android:backgroundTint="#44C3D4"/>
+        app:layout_constraintVertical_bias="0.582" />
 
     <TextView
         android:id="@+id/textViewBas"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
+        android:layout_height="90dp"
         android:background="#00B0A3"
+        android:gravity="left"
         android:paddingStart="6dp"
         android:paddingTop="5dp"
         android:paddingEnd="6dp"
@@ -84,11 +117,10 @@
         android:textColor="#FFFFFF"
         android:textSize="25sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:gravity="left"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
