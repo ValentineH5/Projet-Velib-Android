@@ -42,8 +42,8 @@
             android:layout_marginEnd="8dp"
             android:text="🚲 Trouver un vélo"
             android:textSize="12sp"
-            android:backgroundTint="#E3F2FD"
-            android:textColor="#1565C0"/>
+            android:backgroundTint="#E8F5E9"
+            android:textColor="#2E7D32" />
 
         <Button
             android:id="@+id/btnFiltrePlace"
@@ -51,10 +51,11 @@
             android:layout_height="wrap_content"
             android:text="🅿️ Déposer un vélo"
             android:textSize="12sp"
-            android:backgroundTint="#E8F5E9"
-            android:textColor="#2E7D32"/>
+            android:backgroundTint="#E3F2FD"
+            android:textColor="#1565C0"/>
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/filterContainerTwo"
         android:layout_width="wrap_content"
@@ -69,10 +70,10 @@
             android:id="@+id/btnFiltreFavoris"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="⭐ Afficher les favoris"
+            android:textSize="12sp"
             android:backgroundTint="#E8F5E9"
-            android:text="Afficher les favoris"
-            android:textColor="#2E7D32"
-            android:textSize="12sp" />
+            android:textColor="#2E7D32"/>
 
 
     </LinearLayout>
